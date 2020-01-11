@@ -52,7 +52,6 @@ function validateRegion($var){
     }
     return false;
 }
-$err = null;
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -65,15 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!preg_match('/^[А-Яа-я\s]{2,32}$/u', $inputFirstname)) {
         echo 'Имя введено некорректно';
-        //$err = "err";
         $errors['firstname'] = $inputFirstname;
     } else if (!preg_match('/^[А-Яа-я-]{2,32}$/u', $inputLastname)) {
         echo 'Фамилия введена некорректно';
-        // $err = "err";
         $errors['lastname'] = $inputLastname;
     } else if (validateRegion($inputRegion)) {
         echo 'Область проживания  введена некорректно';
-        // $err = "err";
         $errors['region'] = $inputRegion;
     } else if (!preg_match('/^[А-Яа-я\s-]{2,32}$/u', $inputCity)) {
         echo 'Город проживания  введен некорректно';
@@ -81,11 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['city'] = $inputCity;
     } else if (!preg_match('/^[А-Яа-я0-9\s-,\.]{2,32}$/u', $inputAdress)) {
         echo 'Адрес проживания  введена некорректно';
-        //$err = "err";
         $errors['adress'] = $inputAdress;
     } else if (validateDate($inputDate)) {
         echo 'Дата рождения введена некорректно';
-        //$err = "err";
         $errors['date'] = $inputDate;
     } else {
         $date = date_create_from_format('Y-m-d', $inputDate);
@@ -134,7 +128,7 @@ EOT;
         <br>
         <lablel>Адрес проживания </lablel>
         <br>
-        <textarea class="<?php echo $err;?>"
+        <textarea class="<?php if (array_key_exists('adress', $errors)) echo 'err' ;?>"
                   placeholder="<?php if (!empty($inputAdress)) echo $inputAdress; else echo''; ?>"
                   name="adress" cols="45" rows="8"></textarea>
         <br>
